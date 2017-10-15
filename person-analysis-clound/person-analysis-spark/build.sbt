@@ -38,7 +38,7 @@ lazy val commonSettings = Seq(
 	externalResolvers := Resolver.withDefaultResolvers(resolvers.value, mavenCentral = false)
 )
 	
-lazy val personAnalysisSpark = (project in file("person-analysis-spark"))
+lazy val personAnalysisSpark = (project in file("."))
 	.settings(
 		commonSettings,
 		name := "person-analysis-spark",
