@@ -22,6 +22,7 @@ public class PersistentService {
 			if (null != json) {
 				try {
 					jsonQueue.put(json);
+					Thread.sleep(300);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

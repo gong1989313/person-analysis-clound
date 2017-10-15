@@ -15,6 +15,7 @@
 	<modules>
 		<module>person-analysis-parser</module>
 		<module>person-analysis-common</module>
+		<module>pserson-analysis-spark</module>
 	</modules>
 
 	<build>
