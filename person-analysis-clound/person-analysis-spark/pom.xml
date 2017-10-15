@@ -5,5 +5,5 @@
     <artifactId>person-analysis-clound</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>pserson-analysis-spark</artifactId>
+  <artifactId>person-analysis-spark</artifactId>
 </project>
