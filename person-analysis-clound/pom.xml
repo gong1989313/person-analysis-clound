@@ -14,6 +14,7 @@
 	</properties>
 	<modules>
 		<module>person-analysis-parser</module>
+		<module>person-analysis-common</module>
 	</modules>
 
 	<build>
