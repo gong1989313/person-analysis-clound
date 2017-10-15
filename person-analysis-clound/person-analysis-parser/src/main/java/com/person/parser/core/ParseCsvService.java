@@ -2,8 +2,10 @@ package com.person.parser.core;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 import org.apache.log4j.Logger;
 
@@ -15,10 +17,14 @@ public class ParseCsvService {
 	private static Logger logger = Logger.getLogger(ParseCsvService.class);
 	
 	private BufferedReader br = null;
-	private PersistentService jdbcDao = new PersistentService();
+	private PersistentService persistentService = new PersistentService();
 
-	public ParseCsvService(String path) throws IOException {
-		br = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF-8"));
+	public ParseCsvService(String path) {
+		try {
+			br = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF-8"));
+		} catch (UnsupportedEncodingException | FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void parseCSVFile(int fieldNum) {
@@ -104,7 +110,7 @@ public class ParseCsvService {
 							isQutesFlag = false;
 							pos = -1;
 						}
-						jdbcDao.save2Queue(parms);
+						persistentService.save2Queue(parms);
 						temp.delete(0, temp.length());
 						count = 0;
 						status = StatusTypeEnum.NewFieldStart;
@@ -124,7 +130,7 @@ public class ParseCsvService {
 					quotesFieldBak.append((char) ch);
 				}
 			}
-			jdbcDao.save2Queue(parms);
+			persistentService.save2Queue(parms);
 		} catch (IOException e) {
 			logger.error("parse cause exception.");
 			e.printStackTrace();

@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.person.parser.exception.InParticularCases;
 
 public class ParseUtil {
-	public static String convertMillsToTimes(long milliseconds){
+	public static String convertMillsToTimes(long milliseconds) {
 		long hour = milliseconds / (60 * 60 * 1000);
 		long minute = (milliseconds - hour * 60 * 60 * 1000) / (60 * 1000);
 		long second = (milliseconds - hour * 60 * 60 * 1000 - minute * 60 * 1000) / 1000;
@@ -37,46 +37,47 @@ public class ParseUtil {
 		}
 		return sh + ": " + sm + ": " + ss;
 	}
-	
-	public static String[] bakQuotesFieldProcess(String[] parms, int pos, StringBuilder quotesFieldBak){
+
+	public static String[] bakQuotesFieldProcess(String[] parms, int pos, StringBuilder quotesFieldBak) {
 		String[] newParms = quotesFieldBak.toString().split(",", -1);
-		if(newParms.length+pos==parms.length){
+		if (newParms.length + pos == parms.length) {
 			for (int i = 0; i < newParms.length; i++) {
 				parms[pos + i] = newParms[i];
-			} 
+			}
 		}
 		return parms;
 	}
-	
-	public static String[] specialCharProcess(String[] parms, String[] baks, int pos, StringBuilder quotesFieldBak){
-		if(parms.length+pos>parms.length){
+
+	public static String[] specialCharProcess(String[] parms, String[] baks, int pos, StringBuilder quotesFieldBak) {
+		if (parms.length + pos > parms.length) {
 			String temp = processSpecialChar(quotesFieldBak.toString());
-			if(temp != null){
+			if (temp != null) {
 				String[] newParms = temp.split(",", -1);
-				
-				for(int i=0; i<baks.length; i++){
-					parms[i]=baks[i];
+
+				for (int i = 0; i < baks.length; i++) {
+					parms[i] = baks[i];
 				}
-				for(int i=0 ; i<newParms.length; i++){
-					parms[pos+i] = newParms[i];
+				for (int i = 0; i < newParms.length; i++) {
+					parms[pos + i] = newParms[i];
 				}
 				return parms;
 			}
 		}
 		return null;
 	}
-	
-	public static String processSpecialChar(String str){
-		if(StringUtils.contains(str, InParticularCases.MultipleQuotes)){
+
+	public static String processSpecialChar(String str) {
+		if (StringUtils.contains(str, InParticularCases.MultipleQuotes)) {
 			str = StringUtils.replace(str, InParticularCases.MultipleQuotes, "");
 			return str;
 		}
 		return null;
 	}
-	
-	public static String[] bakArray(String[] src, int pos){
+
+	public static String[] bakArray(String[] src, int pos) {
 		String[] newArr = new String[pos];
 		System.arraycopy(src, 0, newArr, 0, pos);
 		return newArr;
 	}
+	
 }
