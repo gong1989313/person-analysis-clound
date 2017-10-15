@@ -1,0 +1,31 @@
+ 启动zookeeper
+
+bin/zookeeper-server-start.sh config/zookeeper.properties &
+
+启动kafka
+/home/hadoop/bigdata/workspace/kafka_2.11-0.11.0.1/bin/kafka-server-start.sh /home/hadoop/bigdata/workspace/kafka_2.11-0.11.0.1/config/server.properties 1>/dev/null 2>&1 &
+
+停止kafka
+bin/kafka-server-stop.sh
+
+停止zookeeper
+bin/zookeeper-server-stop.sh
+
+创建topic
+/home/hadoop/bigdata/workspace/kafka_2.11-0.11.0.1/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
+/home/hadoop/bigdata/workspace/kafka_2.11-0.11.0.1/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
+
+展示topic
+/home/hadoop/bigdata/workspace/kafka_2.11-0.11.0.1/bin/kafka-topics.sh --list --zookeeper localhost:2181
+
+描述topic
+/home/hadoop/bigdata/workspace/kafka_2.11-0.11.0.1/bin/kafka-topics.sh --describe --zookeeper localhost:2181 --topic test
+
+生产者：
+/home/hadoop/bigdata/workspace/kafka_2.11-0.11.0.1/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
+
+消费者：
+/home/hadoop/bigdata/workspace/kafka_2.11-0.11.0.1/bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic test --from-beginning
+
+
+/home/hadoop/bigdata/workspace/flume/bin/flume-ng agent --conf conf -f /home/hadoop/bigdata/workspace/flume/conf/kafka-conf.properties -n agent -Dflume.root.logger=INFO,console
