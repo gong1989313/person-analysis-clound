@@ -73,6 +73,7 @@ public class KafkaProducerTask implements Runnable {
 					String msg = jsonQueue.take();
 					if(msg != null) {
 						producer.send(generateKeyedMessage(msg));
+						TimeUnit.MILLISECONDS.sleep(100);
 					}
 				} else {
 					TimeUnit.MILLISECONDS.sleep(100);
