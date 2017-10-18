@@ -21,6 +21,8 @@ val sparkStreamingKafka = "org.apache.spark" % "spark-streaming-kafka-0-10_2.11"
 val hbaseClient = "org.apache.hbase" % "hbase-client" % "1.2.2"
 val hbaseServer = "org.apache.hbase" % "hbase-server" % "1.2.2"
 
+val fastJson = "com.alibaba" % "fastjson" % "1.2.39"
+
 lazy val commonSettings = Seq(
 	organization := "com.gxq.learn",
 	version := "0.1",
@@ -53,7 +55,9 @@ lazy val personAnalysisSpark = (project in file("."))
 			sparkStreaming,
 			sparkStreamingKafka,
 			hbaseServer,
-			hbaseClient
+			hbaseClient,
+			mongodb,
+			fastJson
 		)
 	)
 
