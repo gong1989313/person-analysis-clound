@@ -17,12 +17,12 @@ object PersonAnalysisMain {
     val runMode = "local"
     val sparkSession = SparkSession.builder().master(runMode)
       .appName("PersonAnalysis")
-      .config("spark.mongodb.input.uri", "mongodb://192.168.2.13:27017,192.168.2.14:27017,192.168.2.15:27017/bigdata")
-      .config("spark.mongodb.output.uri", "mongodb://192.168.2.13:27017,192.168.2.14:27017,192.168.2.15:27017/bigdata")
+      .config("spark.mongodb.input.uri", "mongodb://192.168.2.13:28111,192.168.2.14:28112,192.168.2.15:28113/bigdata")
+      .config("spark.mongodb.output.uri", "mongodb://192.168.2.13:28111,192.168.2.14:28112,192.168.2.15:28113/bigdata")
       .config("spark.mongodb.output.database", "bigdata")
       .config("spark.mongodb.output.collection", "test").getOrCreate()
 
-    val streamingContext = new StreamingContext(sparkSession.sparkContext, Seconds(1))
+    val streamingContext = new StreamingContext(sparkSession.sparkContext, Seconds(5))
 
     val kafkaParams = Map[String, Object](
       "bootstrap.servers" -> "192.168.2.13:9092,192.168.2.14:9092,192.168.2.15:9092",
@@ -38,7 +38,7 @@ object PersonAnalysisMain {
       PreferConsistent,
       Subscribe[String, String](topics, kafkaParams))
     val lines = stream.map(_.value()).map(line => FastJsonUtil.json2Map(line))
-    val words = lines.map(_.get("Gender").toString())
+    val words = lines.map(_.get("gender").toString())
     val pairs = words.map(word => (word, 1))
     val wordCounts = pairs.reduceByKey(_ + _)
 

@@ -1,0 +1,33 @@
+step 1 启动配置服务器:
+#  登录到192.168.2.13
+sudo /home/hadoop/bigdata/workspace/mongodb/bin/mongod -f /home/hadoop/bigdata/workspace/mongodb/mongod-configserver1.yml
+#  登录到192.168.2.14
+sudo /home/hadoop/bigdata/workspace/mongodb/bin/mongod -f /home/hadoop/bigdata/workspace/mongodb/mongod-configserver2.yml
+#  登录到192.168.2.15
+sudo /home/hadoop/bigdata/workspace/mongodb/bin/mongod -f /home/hadoop/bigdata/workspace/mongodb/mongod-configserver3.yml
+
+step 2 启动各节点mongodb服务
+#  登录到192.168.2.13
+sudo /home/hadoop/bigdata/workspace/mongodb/bin/mongod -f /home/hadoop/bigdata/workspace/mongodb/mongod-a1-config.yml
+sudo /home/hadoop/bigdata/workspace/mongodb/bin/mongod -f /home/hadoop/bigdata/workspace/mongodb/mongod-b1-config.yml
+sudo /home/hadoop/bigdata/workspace/mongodb/bin/mongod -f /home/hadoop/bigdata/workspace/mongodb/mongod-c1-config.yml
+
+#  登录到192.168.2.14
+sudo /home/hadoop/bigdata/workspace/mongodb/bin/mongod -f /home/hadoop/bigdata/workspace/mongodb/mongod-a2-config.yml
+sudo /home/hadoop/bigdata/workspace/mongodb/bin/mongod -f /home/hadoop/bigdata/workspace/mongodb/mongod-b2-config.yml
+sudo /home/hadoop/bigdata/workspace/mongodb/bin/mongod -f /home/hadoop/bigdata/workspace/mongodb/mongod-c2-config.yml
+
+#  登录到192.168.2.15
+sudo /home/hadoop/bigdata/workspace/mongodb/bin/mongod -f /home/hadoop/bigdata/workspace/mongodb/mongod-a3-config.yml
+sudo /home/hadoop/bigdata/workspace/mongodb/bin/mongod -f /home/hadoop/bigdata/workspace/mongodb/mongod-b3-config.yml
+sudo /home/hadoop/bigdata/workspace/mongodb/bin/mongod -f /home/hadoop/bigdata/workspace/mongodb/mongod-c3-config.yml
+
+
+1.登录命令：
+sudo /home/hadoop/bigdata/workspace/mongodb/bin/mongod 127.0.0.1:28111
+sudo /home/hadoop/bigdata/workspace/mongodb/bin/mongod 127.0.0.1:28112
+sudo /home/hadoop/bigdata/workspace/mongodb/bin/mongod 127.0.0.1:28113
+
+sudo /home/hadoop/bigdata/workspace/mongodb/bin/mongo 127.0.0.1:28111/admin
+sudo /home/hadoop/bigdata/workspace/mongodb/bin/mongo 127.0.0.1:28112/admin
+sudo /home/hadoop/bigdata/workspace/mongodb/bin/mongo 127.0.0.1:28113/admin
