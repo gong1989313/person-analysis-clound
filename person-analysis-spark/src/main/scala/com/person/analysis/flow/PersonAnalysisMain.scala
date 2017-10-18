@@ -10,6 +10,7 @@ import org.apache.spark.streaming.kafka010.KafkaUtils
 import java.sql.Timestamp
 import com.person.analysis.dto.GenderCount
 import com.person.analysis.utils.JsonUtil
+import com.person.analysis.utils.FastJsonUtil
 
 object PersonAnalysisMain {
   def main(args: Array[String]): Unit = {
@@ -36,35 +37,19 @@ object PersonAnalysisMain {
       streamingContext,
       PreferConsistent,
       Subscribe[String, String](topics, kafkaParams))
-    val lines = stream.map(_.value()).map(line => JsonUtil.json2PersonObj(line))
-    //.map(p => (p.getGender(), 1))
-    val words = lines.map({p =>
-      import com.person.common.entity.Person.implicits._
-      (p.getGender(), 1)})
-    // val words = lines.flatMap(_.getGender)
-    // val words = lines.flatMap(_.split(" "))
-    // val pairs = words.map(word => (word, 1))
-    // val wordCounts = pairs.reduceByKey(_ + _)
+    val lines = stream.map(_.value()).map(line => FastJsonUtil.json2Map(line))
+    val words = lines.map(_.get("Gender").toString())
+    val pairs = words.map(word => (word, 1))
+    val wordCounts = pairs.reduceByKey(_ + _)
 
     wordCounts.foreachRDD({ rdd =>
       import sparkSession.implicits._
       val wordCounts = rdd.map({
         case (word: String, count: Int) => GenderCount(word, count)
       }).toDF()
+      wordCounts.show
       wordCounts.write.mode("append").format("com.mongodb.spark.sql").save()
     })
-
-    /*val lines = stream.map(_.value())
-    lines.foreachRDD({
-      rdd =>
-        {
-          import sparkSession.implicits
-          val mongoDF = rdd.map({
-            case (timeStamp: Timestamp, gender: String, quantity: Int) => SexualityModel(timeStamp, gender, quantity)
-          }).toDF
-          mongoDF.write.mode("append").format("com.mongodb.spark.sql").mongo()
-        }
-    })*/
 
     streamingContext.start()
     streamingContext.awaitTermination()
